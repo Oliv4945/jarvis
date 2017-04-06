@@ -53,10 +53,14 @@ dependencies=(awk curl git iconv jq nano perl sed sox wget mpg123)
 case "$OSTYPE" in
     linux*)     platform="linux"
                 jv_arch="$(uname -m)"
+                jv_os_distribution="$(cat /etc/*release | grep ^DISTRIB_ID= | cut -f2 -d= | tr -d "'")"
                 jv_os_name="$(cat /etc/*release | grep ^ID= | cut -f2 -d=)"
                 jv_os_version="$(cat /etc/*release | grep ^VERSION_ID= | cut -f2 -d= | tr -d '"')"
                 dependencies+=(alsamixer aplay arecord whiptail)
             	jv_cache_folder="/dev/shm"
+                if [[ "$jv_os_distribution" == "OpenWrt" ]]; then
+                    dependencies+=(coreutils-whoami coreutils-groups)
+                fi
                 ;;
     darwin*)    platform="osx"
                 jv_arch="$(uname -m)"
@@ -485,7 +489,7 @@ done
 # Check not ran as root
 if [ "$EUID" -eq 0 ]; then
     jv_error "ERROR: Jarvis must not be used as root"
-    exit 1
+    #exit 1
 fi
 
 # check dependencies

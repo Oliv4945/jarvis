@@ -72,21 +72,34 @@ editor () {
 
 # Public: update package/formula list
 jv_update () {
-    sudo apt-get update -y #421
+    if [[ "$jv_os_distribution" == "OpenWrt" ]]; then
+        opkg update
+    else
+        sudo apt-get update -y #421
+    fi
 }
 
 # Public: install packages, used for dependencies
 #
 # args: list of packages to install
 jv_install () {
-    sudo apt-get install -y $@
+    if [[ "$jv_os_distribution" == "OpenWrt" ]]; then
+        # --force-overwrite is required for sox on respeaker, it replaces play
+        opkg --force-overwrite install $@ 
+    else
+        sudo apt-get install -y $@
+    fi
 }
 
 # Public: remove packages, used for uninstalls
 #
 # args: list of packages to remove
 jv_remove () {
-    sudo apt-get remove $@
+    if [[ "$jv_os_distribution" == "OpenWrt" ]]; then
+        opkg remove $@
+    else
+        sudo apt-get remove $@
+    fi
 }
 
 # Public: open URL in default browser
