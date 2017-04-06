@@ -11,7 +11,8 @@ It works with a [plugin store](http://domotiquefacile.fr/jarvis/plugins) to add 
 This project is multilingual, which means that you may receive assistance, at least in French and in English.
 
 ---
-
+This branch is a port to OpenWrt (tested on Respeaker)
+---
 <details>
 	<summary id="TOC"><strong>Table Of Contents</strong></summary>
 - [Requirements]
