@@ -22,7 +22,14 @@ Steps required on my setup (Debian Stretch)
   - Manually add `compiler-gcc6.h` to `build_dir/host/u-boot-2014.10/include/linux/`
   - Patch uboot `rsa-sign.c` with [this patch](https://git.lede-project.org/?p=source.git;a=blob;f=tools/mkimage/patches/210-openssl-1.1.x-compat.patch;h=fa7c99f39b0a65f0d784473ca9b8fde836e4fa6e;hb=70b104f98c0657323b28fce140b73a94bf3eb756)
 * `make toolchain/install`
+  - If required, download [linux-3.18.23.tar.xz](https://www.linux-mips.org/pub/linux/mips/kernel/v3.x/linux-3.18.23.tar.xz) into `./dl`
+  - If gcc>=6 is used, a weird error appears while compiling...gcc :-)
+So I switched to a virtual machine with gcc 4.9, it works out of the box except Linux sources files download
 
+Packages compilation:
+* jq Use this (Makefile)[https://github.com/zz090923610/jq-openwrt], with [this patch](https://github.com/eq-3/occu/blob/master/CCU2/buildroot-2014.11/package/jq/jq-0001-libm.h-comment-j0-j1-y0-and-y1.patch)
+* mpg123 from official OpenWrt packages
+* whiptail from [here](https://dev.openwrt.org/browser/packages/libs/newt/Makefile) - Still got an error "missing slang.h"
 ---
 <details>
 	<summary id="TOC"><strong>Table Of Contents</strong></summary>
