@@ -11,7 +11,18 @@ It works with a [plugin store](http://domotiquefacile.fr/jarvis/plugins) to add 
 This project is multilingual, which means that you may receive assistance, at least in French and in English.
 
 ---
-This branch is a port to OpenWrt (tested on Respeaker)
+This branch is a port to OpenWrt (tested on Respeaker)  
+
+Some OpenWrt packages are not provided and must be compiled : whiptail, mpg1213, jq. For that I am tring to cross compile them thanks to [Respeaker's github](https://github.com/respeaker/openwrt) repository.  
+Steps required on my setup (Debian Stretch)
+* `git clone https://github.com/respeaker/openwrt.git`
+* cd openwrt
+* `cp respeaker.config .config`
+* `make tools/install`. I had two errors solved by
+  - Manually add `compiler-gcc6.h` to `build_dir/host/u-boot-2014.10/include/linux/`
+  - Patch uboot `rsa-sign.c` with [this patch](https://git.lede-project.org/?p=source.git;a=blob;f=tools/mkimage/patches/210-openssl-1.1.x-compat.patch;h=fa7c99f39b0a65f0d784473ca9b8fde836e4fa6e;hb=70b104f98c0657323b28fce140b73a94bf3eb756)
+* `make toolchain/install`
+
 ---
 <details>
 	<summary id="TOC"><strong>Table Of Contents</strong></summary>
