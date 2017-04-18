@@ -59,7 +59,7 @@ case "$OSTYPE" in
                 dependencies+=(alsamixer aplay arecord whiptail)
             	jv_cache_folder="/dev/shm"
                 if [[ "$jv_os_distribution" == "OpenWrt" ]]; then
-                    dependencies+=(coreutils-whoami coreutils-groups)
+                    dependencies+=(shadow-usermod coreutils-sleep coreutils-pr coreutils-whoami coreutils-groups)
                 fi
                 ;;
     darwin*)    platform="osx"
@@ -322,7 +322,11 @@ configure () {
 check_dependencies () {
     missings=()
     for i in "${dependencies[@]}"; do
-        hash $i 2>/dev/null || missings+=($i)
+        if [[ "$jv_os_distribution" == "OpenWrt" ]]; then
+            opkg list-installed $i 1>/dev/null || missings+=($i)
+        else
+            hash $i 2>/dev/null || missings+=($i)
+        fi
     done
     if [ ${#missings[@]} -gt 0 ]; then
         jv_warning "You must install missing dependencies before going further"
@@ -338,7 +342,7 @@ check_dependencies () {
         if ! groups "$(whoami)" | grep -qw audio; then
             jv_warning "Your user should be part of audio group to list audio devices"
             jv_yesno "Would you like to add audio group to user $USER?" || exit 1
-            sudo usermod -a -G audio $USER # add audio group to user
+            usermod -a -G audio $USER # add audio group to user
             jv_warning "Please logout and login for new group permissions to take effect, then restart Jarvis"
             exit
         fi
