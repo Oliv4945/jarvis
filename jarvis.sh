@@ -162,7 +162,7 @@ configure () {
                                    Weekly) check_updates=7;;
                                    Never)  check_updates=false;;
                                esac;;
-        command_stt)           options=('bing' 'wit' 'snowboy' 'pocketsphinx')
+        command_stt)           options=('bing' 'wit' 'snowboy' 'pocketsphinx' 'respeaker')
                                eval "$1=\"$(dialog_select "Which engine to use for the recognition of commands\nVisit http://domotiquefacile.fr/jarvis/content/stt\nRecommended: bing" options[@] "${!1}")\""
                                [ "$command_stt" == "snowboy" ] && dialog_msg "Attention: Snowboy for commands will only be able to understand trained commands.\nTrain your commands in Settings > Voice Reco > Snowboy Settings > Train..."
                                source stt_engines/$command_stt/main.sh;;
@@ -287,7 +287,7 @@ configure () {
         trigger_mode)        options=("magic_word" "enter_key" "physical_button")
                              eval "$1=\"$(dialog_select "How to trigger Jarvis (before to say a command)" options[@] "${!1}")\""
                              ;;
-        trigger_stt)         options=('snowboy' 'pocketsphinx' 'bing')
+        trigger_stt)         options=('snowboy' 'pocketsphinx' 'bing', 'respeaker')
                              eval "$1=\"$(dialog_select "Which engine to use for the recognition of the hotword ($trigger)\nVisit http://domotiquefacile.fr/jarvis/content/stt\nRecommended: snowboy" options[@] "${!1}")\""
                              source stt_engines/$trigger_stt/main.sh
                              ;;
