@@ -203,7 +203,6 @@ jv_sanitize () {
     # lowercase, remove accents and strip special chars http://stackoverflow.com/a/30832719
     echo $string \
         | awk '{print tolower($0)}' \
-        | iconv -f utf-8 -t ascii//TRANSLIT \
         | sed "s/[^a-zA-Z0-9 $replace_spaces_with]//g"
 }
 
