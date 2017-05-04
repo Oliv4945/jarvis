@@ -56,6 +56,10 @@ case "$OSTYPE" in
                 jv_arch="$(uname -m)"
                 jv_os_name="$(cat /etc/*release | grep ^ID= | cut -f2 -d=)"
                 jv_os_version="$(cat /etc/*release | grep ^VERSION_ID= | cut -f2 -d= | tr -d '"')"
+                # For OpenWRT/Respeaker
+                if [ -z $jv_os_name ]; then
+                    jv_os_name="$(cat /etc/*release | grep ^DISTRIB_ID= | cut -f2 -d= | tr -d "'")"
+                fi
                 dependencies+=(alsamixer aplay arecord whiptail libsox-fmt-mp3)
             	jv_cache_folder="/dev/shm"
                 ;;
