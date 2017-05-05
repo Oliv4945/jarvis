@@ -74,7 +74,7 @@ editor () {
 # 
 #   jv_update
 jv_update () {
-    sudo apt-get update -y #421
+    sudo $jv_package_manager update $jv_package_manager_options #421
 }
 
 # Public: indicates if a package is installed
@@ -92,8 +92,10 @@ jv_is_installed () {
 # 
 #   jv_install mpg123
 jv_install () {
-    sudo apt-get install -y $@
-    sudo apt-get clean
+    sudo $jv_package_manager install $jv_package_manager_options $@
+    if [ $jv_os_name != "OpenWrt" ]; then
+        sudo $jv_package_manager clean
+    fi
 }
 
 # Public: remove packages, used for uninstalls
@@ -102,7 +104,7 @@ jv_install () {
 #
 #   jv_remove mpg123
 jv_remove () {
-    sudo apt-get remove $@
+    sudo $jv_package_manager remove $@
 }
 
 # Public: open URL in default browser
