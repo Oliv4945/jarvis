@@ -62,6 +62,14 @@ case "$OSTYPE" in
                 fi
                 dependencies+=(alsamixer aplay arecord whiptail libsox-fmt-mp3)
             	jv_cache_folder="/dev/shm"
+                case "$jv_os_name" in
+                    OpenWrt) jv_package_manager="opkg"
+                             jv_package_manager_options="--force-overwrite"
+                             ;;
+                    *)       jv_package_manager="apt-get"
+                             jv_package_manager_options="-y"
+                             ;;
+                esac
                 ;;
     darwin*)    platform="osx"
                 jv_arch="$(uname -m)"
