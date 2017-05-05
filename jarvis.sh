@@ -161,7 +161,7 @@ while getopts ":$flags" o; do
 done
 
 # Check not ran as root
-if [ "$EUID" -eq 0 ]; then
+if [ "$EUID" -eq 0 -a "$jv_os_name" != "OpenWrt" ]; then
     jv_error "ERROR: Jarvis must not be used as root"
     exit 1
 fi
