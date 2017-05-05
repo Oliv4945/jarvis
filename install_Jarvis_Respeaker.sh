@@ -6,10 +6,12 @@ src/gz jarvis_respeaker_base https://iopush.net/Jarvis/Respeaker/packages/base
 src/gz jarvis_respeaker_packages https://iopush.net/Jarvis/Respeaker/packages/packages
 EOF
 
-# Disable signature verifications
-# TODO : Generate package signature
-# WARNING - Not safe
-sed -i '/option check_signature 1/d' /etc/opkg.conf
+# Add opkg key
+cat <<'EOF'>> /tmp/b51f350377af8a5a
+untrusted comment: public key b51f350377af8a5a
+RWS1HzUDd6+KWig9kocRWRS+aBZZWc1L4cjeSWoQyt2vMW0+p1Vonxa+
+EOF
+opkg-key add /tmp/b51f350377af8a5a
 
 # Update packages list and install bash
 opkg update
