@@ -61,7 +61,10 @@ case "$OSTYPE" in
                     jv_os_name="$(cat /etc/*release | grep ^DISTRIB_ID= | cut -f2 -d= | tr -d "'")"
                 fi
                 dependencies+=(alsamixer aplay arecord whiptail libsox-fmt-mp3)
-            	jv_cache_folder="/dev/shm"
+                if [[ "$jv_os_name" == "OpenWrt" ]]; then
+                    dependencies+=(shadow-usermod coreutils-sleep coreutils-pr coreutils-whoami coreutils-groups)
+                fi
+                jv_cache_folder="/dev/shm"
                 case "$jv_os_name" in
                     OpenWrt) jv_package_manager="opkg"
                              jv_package_manager_options="--force-overwrite"
