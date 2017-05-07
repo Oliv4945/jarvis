@@ -83,7 +83,12 @@ jv_update () {
 # 
 #   jv_is_installed mpg123 && echo "already installed"
 jv_is_installed () {
-    hash "$1" 2>/dev/null || dpkg -s "$1" >/dev/null 2>&1
+    case "$jv_os_name" in
+        OpenWrt) hash "$1" 2>/dev/null || [ $(opkg list-installed "$1" | wc -l) -ne 0 ] 
+                 ;;
+        *)       hash "$1" 2>/dev/null || dpkg -s "$1" >/dev/null 2>&1
+                 ;;
+    esac
 }
 
 # Public: install packages, used for dependencies
