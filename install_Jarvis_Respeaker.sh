@@ -17,5 +17,10 @@ opkg-key add /tmp/b51f350377af8a5a
 opkg update
 opkg install bash git git-http sudo
 
+# Resolve bug with git
+# See https://dev.openwrt.org/ticket/11930
+ln -s $(which git) /usr/lib/git-core/git
+
+# Clone Jarvis
 git clone -b respeaker --single-branch https://github.com/oliv4945/jarvis.git
 
