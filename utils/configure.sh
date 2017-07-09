@@ -181,7 +181,7 @@ configure () {
                 fi
             done
             ;;
-        recorder)            options=("snowboy" "sox")
+        recorder)            options=("snowboy" "sox" "sox_pa")
                              eval "$1=\"$(dialog_select "Method to record commands from microphone" options[@] "${!1}")\""
                              source recorders/$recorder/main.sh
                              ;;

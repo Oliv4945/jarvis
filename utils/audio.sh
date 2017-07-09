@@ -4,8 +4,8 @@
 # Public: play an audio file to speakers  
 # $1: audio file to play
 jv_play () {
-    [ "$platform" = "linux" ] && local play_export="AUDIODRIVER=alsa" || local play_export='' # is this still needed?
-    [ -s "$1" ] && eval "$play_export play -V1 -q $1 tempo $tempo" #591 sox bug with empty audio files
+    # [ "$platform" = "linux" ] && local play_export="AUDIODRIVER=alsa" || local play_export='' # is this still needed?
+    [ -s "$1" ] && eval "mplayer -novideo -really-quiet $1" # tempo $tempo" #591 sox bug with empty audio files
     if [ "$?" -ne 0 ]; then
         jv_error "ERROR: play command failed"
         jv_warning "HELP: Verify your speaker in Settings > Audio > Speaker"
@@ -20,7 +20,8 @@ jv_play () {
 jv_record_duration () {
     local audiofile=$1
     local duration=$2
-    rec $audiofile gain $gain trim 0.5 $duration # skip first 0.5 secs due to mic activation noise
+    #rec $audiofile gain $gain trim 0.5 $duration # skip first 0.5 secs due to mic activation noise
+    parec -r --channels=1 --rate=16000 | sox -r raw -b 16 -e signed -r 16000 - $audiofile gain $gain trim 0.5 $duration # skip first 0.5 secs due to mic activation noise
     if [ "$?" -ne 0 ]; then
         jv_error "ERROR: rec command failed"
         jv_warning "HELP: Verify your mic in Settings > Audio > Mic"
